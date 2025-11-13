@@ -9,6 +9,7 @@ env:
 jobs:
 
   yicontrol_build:
+    runs-on: self-hosted
     container:
       image: espressif/idf:v5.2.5
     steps:
