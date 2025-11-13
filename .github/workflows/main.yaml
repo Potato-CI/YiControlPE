@@ -4,9 +4,31 @@ on: push
 env:
   gituser: "Potato"
   projectname: "YiControlPE"
+  projectuiname: "YiControlPE_UI"
 
 jobs:
-  yicontrol_code:
-    runs-on: ubuntu-latest
+
+  yicontrol_build:
+    container:
+      image: espressif/idf:v5.2.5
     steps:
-    - run: echo "Potato tests..."
+    - name: Install git
+      run: apt-get update && apt-get install -y git
+    
+    - name: Clone YiControlPE repository
+      run: git clone ${{ secrets.GITEA_HOST }}/${{ env.gituser }}/${{ env.projectname }}.git
+
+    - name: Clone YiControlPE_UI repository
+      run: git clone ${{ secrets.GITEA_HOST }}/${{ env.gituser }}/${{ env.projectuiname }}.git ./YiControlPE/components/ui_lvgl_util
+    
+    - name: Clone YiControlPE_base repository
+      run: git clone ${{ secrets.GITEA_HOST }}/${{ env.gituser }}/x1_base_util.git ./YiControlPE/components/x1_base_util
+    
+    - name: Build project
+      env:
+        IDF_TARGET: esp32s3
+      run: |
+        . $IDF_PATH/export.sh
+        cd YiControlPE
+        idf.py build
+      shell: bash
