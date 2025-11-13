@@ -1,9 +1,12 @@
 name: CI
 on: push
 
+env:
+  gituser: "Potato"
+  projectname: "YiControlPE"
+
 jobs:
-  test:
+  yicontrol_code:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: echo "Running tests..."
+    - run: echo "Potato tests..."
