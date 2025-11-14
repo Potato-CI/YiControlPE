@@ -38,8 +38,10 @@ jobs:
 
     - name: rename build folder
       run: |
+        rm -rf YiControlPE/build/esp-idf
         BUILD_DIR="build_$(date +%m%d%H%M)"
         echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+        
 
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
