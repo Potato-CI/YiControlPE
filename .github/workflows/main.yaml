@@ -33,3 +33,18 @@ jobs:
         cd YiControlPE
         idf.py build
       shell: bash
+
+    - name: rename build folder
+      run: |
+        BUILD_DIR="build_$(date +%m%d%H%M)"
+        echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v2
+      with:
+        host: ${{secrets.FTP_HOST}}
+        user: ${{secrets.FTP_USER}}
+        password: ${{secrets.FTP_PASS}}
+        localDir: "YiControlPE/build"
+        remoteDir: "/AiYiJan/YiControlPEBin/${{ env.BUILD_DIR }}"
+      
